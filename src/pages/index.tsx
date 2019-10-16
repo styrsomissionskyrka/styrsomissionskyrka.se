@@ -1,36 +1,22 @@
 import React from 'react';
-import { Link, graphql } from 'gatsby';
+import { graphql, Link } from 'gatsby';
+import { IndexQuery } from '../gatsby-queries';
 
 interface Props {
-  data: {
-    site: {
-      siteMetadata: {
-        title: string;
-      };
-    };
-    allContentfulEvent: {
-      edges: {
-        node: {
-          id: string;
-          title: string;
-          slug: string;
-          startDate: string;
-        };
-      }[];
-    };
-  };
+  data: IndexQuery;
 }
 
 const IndexPage = ({ data }: Props) => {
   const { site, allContentfulEvent } = data;
   return (
     <div>
-      <h1>Hello world – {site.siteMetadata.title}</h1>
-      <Link to="/page-2">Go to page 2</Link>
+      <h1>{site && site.siteMetadata && site.siteMetadata.title}</h1>
       <ul>
         {allContentfulEvent.edges.map(({ node }) => (
           <li key={node.id}>
-            {node.title} - {node.startDate}
+            <Link to={`retreat/${node.slug}`}>
+              {node.title} - {node.startDate}
+            </Link>
           </li>
         ))}
       </ul>
@@ -41,15 +27,16 @@ const IndexPage = ({ data }: Props) => {
 export default IndexPage;
 
 export const pageQuery = graphql`
-  query IndexQuery($now: Int) {
+  query IndexQuery($today: Float) {
     site {
       siteMetadata {
         title
       }
     }
+
     allContentfulEvent(
       sort: { fields: startDate, order: DESC }
-      filter: { startDateTimestamp: { gt: $now } }
+      filter: { startDateTimestamp: { gt: $today } }
     ) {
       edges {
         node {

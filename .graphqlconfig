@@ -1,0 +1,12 @@
+{
+  "projects": {
+    "styrsomissionskyrka.se": {
+      "schemaPath": "./schema.json",
+      "extensions": {
+        "endpoints": {
+          "dev": "http://localhost:8000/___graphql"
+        }
+      }
+    }
+  }
+}
