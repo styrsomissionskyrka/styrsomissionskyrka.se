@@ -1,0 +1,79 @@
+{
+  "name": "@styrsomissionskyrka/styrsomissionskyrka.se",
+  "version": "0.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:styrsomissionskyrka/styrsomissionskyrka.se.git",
+  "author": "Adam Bergman <adam@fransvilhelm.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "gatsby develop",
+    "build": "gatsby build",
+    "serve": "gatsby serve",
+    "test": "jest"
+  },
+  "dependencies": {
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2",
+    "react-helmet": "^5.2.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.4",
+    "@testing-library/jest-dom": "^4.1.2",
+    "@testing-library/react": "^9.3.0",
+    "@types/jest": "^24.0.19",
+    "@types/node": "^12.11.1",
+    "@types/react": "^16.9.7",
+    "@types/react-dom": "^16.9.2",
+    "@types/react-helmet": "^5.0.12",
+    "@typescript-eslint/eslint-plugin": "2.x",
+    "@typescript-eslint/parser": "2.x",
+    "babel-eslint": "10.x",
+    "cz-conventional-changelog": "^3.0.2",
+    "eslint": "6.x",
+    "eslint-config-react-app": "5.0.2",
+    "eslint-plugin-flowtype": "3.x",
+    "eslint-plugin-import": "2.x",
+    "eslint-plugin-jsx-a11y": "6.x",
+    "eslint-plugin-react": "7.x",
+    "eslint-plugin-react-hooks": "1.x",
+    "gatsby": "^2.16.3",
+    "gatsby-image": "^2.2.29",
+    "gatsby-plugin-manifest": "^2.2.23",
+    "gatsby-plugin-offline": "^3.0.16",
+    "gatsby-plugin-react-helmet": "^3.1.13",
+    "gatsby-plugin-sharp": "^2.2.31",
+    "gatsby-plugin-typescript": "^2.1.15",
+    "gatsby-source-filesystem": "^2.1.33",
+    "gatsby-transformer-sharp": "^2.2.23",
+    "husky": "^3.0.9",
+    "jest": "^24.9.0",
+    "lint-staged": "^9.4.2",
+    "prettier": "^1.18.2",
+    "typescript": "^3.6.4"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,jsx,tsx,json,md,yml,html}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "all",
+    "proseWrap": "always"
+  }
+}
