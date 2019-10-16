@@ -1,6 +1,7 @@
 import React from 'react';
 import { graphql, Link } from 'gatsby';
 import { IndexQuery } from '../gatsby-queries';
+import { Header } from '../components/Header';
 
 interface Props {
   data: IndexQuery;
@@ -10,12 +11,13 @@ const IndexPage = ({ data }: Props) => {
   const { site, allContentfulEvent } = data;
   return (
     <div>
+      <Header />
       <h1>{site && site.siteMetadata && site.siteMetadata.title}</h1>
       <ul>
         {allContentfulEvent.edges.map(({ node }) => (
           <li key={node.id}>
-            <Link to={`retreat/${node.slug}`}>
-              {node.title} - {node.startDate}
+            <Link to={`kalender/${node.slug}`}>
+              {node.title} | {node.startDate}
             </Link>
           </li>
         ))}
