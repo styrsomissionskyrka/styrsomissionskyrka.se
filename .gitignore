@@ -3,3 +3,4 @@ foo
 dist
 .cache
 public
+.env

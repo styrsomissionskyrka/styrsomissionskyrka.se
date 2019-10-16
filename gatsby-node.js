@@ -1,7 +1,18 @@
-/**
- * Implement Gatsby's Node APIs in this file.
- *
- * See: https://www.gatsbyjs.org/docs/node-apis/
- */
+const { GraphQLInt } = require('gatsby/graphql');
 
-// You can delete this file if you're not using it
+exports.setFieldsOnGraphQLNodeType = ({ type }) => {
+  if (type.name === 'ContentfulEvent' || type.name === 'ContentfulRetreat') {
+    return {
+      startDateTimestamp: {
+        type: GraphQLInt,
+        resolve: source => new Date(source.startDate).getTime(),
+      },
+      endDateTimestamp: {
+        type: GraphQLInt,
+        resolve: source => new Date(source.endDate).getTime(),
+      },
+    };
+  }
+
+  return {};
+};
