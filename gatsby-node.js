@@ -3,87 +3,25 @@ const path = require('path');
 const { promisify } = require('util');
 const { GraphQLFloat } = require('gatsby/graphql');
 
+/**
+ * Part of gatsbys node api this function will fetch data from the GraphAPI and
+ * generate pages based on the returned content.
+ *
+ * @param {import('gatsby').CreatePagesArgs} args
+ * @param {import('gatsby').PluginOptions} [options]
+ * @param {import('gatsby').PluginCallback} [callback]
+ * @return {Promise<void>}
+ */
 exports.createPages = async ({ graphql, actions }) => {
-  const { createPage } = actions;
-  const { data, errors } = await graphql(
-    /* GraphQL */ `
-      query PagesQuery($today: Float) {
-        allContentfulEvent(filter: { startDateTimestamp: { gte: $today } }) {
-          edges {
-            node {
-              id
-              slug
-            }
-          }
-        }
-
-        allContentfulRetreat(filter: { startDateTimestamp: { gte: $today } }) {
-          edges {
-            node {
-              id
-              slug
-            }
-          }
-        }
-
-        allContentfulPage(filter: { slug: { ne: "start" } }) {
-          edges {
-            node {
-              id
-              slug
-            }
-          }
-        }
-      }
-    `,
-    { today: Date.now() },
-  );
-
-  if (errors) throw errors;
-
-  for (let event of data.allContentfulEvent.edges) {
-    const { node } = event;
-    createPage({
-      path: `/kalender/${node.slug}`,
-      component: await resolveTemplate([
-        `./src/templates/single-event-${node.slug}.tsx`,
-        './src/templates/single-event.tsx',
-      ]),
-      context: {
-        id: node.id,
-      },
-    });
-  }
-
-  for (let retreat of data.allContentfulRetreat.edges) {
-    const { node } = retreat;
-    createPage({
-      path: `/retreat/${node.slug}`,
-      component: await resolveTemplate([
-        `./src/templates/single-retreat-${node.slug}.tsx`,
-        './src/templates/single-retreat.tsx',
-      ]),
-      context: {
-        id: node.id,
-      },
-    });
-  }
-
-  for (let page of data.allContentfulPage.edges) {
-    const { node } = page;
-    createPage({
-      path: `/${node.slug}`,
-      component: await resolveTemplate([
-        `./src/templates/page-${node.slug}.tsx`,
-        './src/templates/page.tsx',
-      ]),
-      context: {
-        id: node.id,
-      },
-    });
-  }
+  await createSinglePages({ graphql, actions });
 };
 
+/**
+ * Add special fields to selected types in the graph schema
+ *
+ * @param {import('gatsby').SetFieldsOnGraphQLNodeTypeArgs} args
+ * @returns {void}
+ */
 exports.setFieldsOnGraphQLNodeType = ({ type }) => {
   /**
    * By default the contentful plugin doesn't treat date fields as anything
@@ -106,6 +44,12 @@ exports.setFieldsOnGraphQLNodeType = ({ type }) => {
   return {};
 };
 
+/**
+ * Modify certain pages and add some context to statefully created pages
+ *
+ * @param {import('gatsby').CreatePageArgs} args
+ * @returns {void}
+ */
 exports.onCreatePage = ({ page, actions }) => {
   const { createPage, deletePage } = actions;
 
@@ -122,6 +66,97 @@ exports.onCreatePage = ({ page, actions }) => {
     });
   }
 };
+
+/**
+ * Create single pages based on data fetched from GraphAPI
+ *
+ * @param {import('gatsby').CreatePagesArgs} args
+ * @return {Promise<void>}
+ */
+async function createSinglePages({ graphql, actions }) {
+  const { createPage } = actions;
+  const { data, errors } = await graphql(
+    /* GraphQL */ `
+      query PagesQuery($today: Float) {
+        events: allContentfulEvent(
+          filter: { startDateTimestamp: { gte: $today } }
+        ) {
+          edges {
+            node {
+              id
+              slug
+            }
+          }
+        }
+
+        retreats: allContentfulRetreat(
+          filter: { startDateTimestamp: { gte: $today } }
+        ) {
+          edges {
+            node {
+              id
+              slug
+            }
+          }
+        }
+
+        pages: allContentfulPage(filter: { slug: { ne: "start" } }) {
+          edges {
+            node {
+              id
+              slug
+            }
+          }
+        }
+      }
+    `,
+    { today: Date.now() },
+  );
+
+  if (errors) throw errors;
+
+  for (let event of data.events.edges) {
+    const { node } = event;
+    createPage({
+      path: `/kalender/${node.slug}`,
+      component: await resolveTemplate([
+        `./src/templates/single-event-${node.slug}.tsx`,
+        './src/templates/single-event.tsx',
+      ]),
+      context: {
+        id: node.id,
+      },
+    });
+  }
+
+  for (let retreat of data.retreats.edges) {
+    const { node } = retreat;
+    createPage({
+      path: `/retreat/${node.slug}`,
+      component: await resolveTemplate([
+        `./src/templates/single-retreat-${node.slug}.tsx`,
+        './src/templates/single-retreat.tsx',
+      ]),
+      context: {
+        id: node.id,
+      },
+    });
+  }
+
+  for (let page of data.pages.edges) {
+    const { node } = page;
+    createPage({
+      path: `/${node.slug}`,
+      component: await resolveTemplate([
+        `./src/templates/page-${node.slug}.tsx`,
+        './src/templates/page.tsx',
+      ]),
+      context: {
+        id: node.id,
+      },
+    });
+  }
+}
 
 /**
  * Resolve the first available template path
