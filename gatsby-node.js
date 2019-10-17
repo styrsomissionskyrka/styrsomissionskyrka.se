@@ -26,7 +26,7 @@ exports.createPages = async ({ graphql, actions }) => {
           }
         }
 
-        allContentfulPage {
+        allContentfulPage(filter: { slug: { ne: "start" } }) {
           edges {
             node {
               id
@@ -46,8 +46,8 @@ exports.createPages = async ({ graphql, actions }) => {
     createPage({
       path: `/kalender/${node.slug}`,
       component: await resolveTemplate([
-        `./src/templates/event-${node.slug}.tsx`,
-        './src/templates/event.tsx',
+        `./src/templates/single-event-${node.slug}.tsx`,
+        './src/templates/single-event.tsx',
       ]),
       context: {
         id: node.id,
@@ -60,8 +60,8 @@ exports.createPages = async ({ graphql, actions }) => {
     createPage({
       path: `/retreat/${node.slug}`,
       component: await resolveTemplate([
-        `./src/templates/retreat-${node.slug}.tsx`,
-        './src/templates/retreat.tsx',
+        `./src/templates/single-retreat-${node.slug}.tsx`,
+        './src/templates/single-retreat.tsx',
       ]),
       context: {
         id: node.id,
