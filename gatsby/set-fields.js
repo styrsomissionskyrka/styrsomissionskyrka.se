@@ -4,7 +4,7 @@ import { GraphQLFloat } from 'gatsby/graphql';
  * Add special fields to selected types in the graph schema
  *
  * @param {import('gatsby').SetFieldsOnGraphQLNodeTypeArgs} args
- * @returns {void}
+ * @returns {any}
  */
 export const setFieldsOnGraphQLNodeType = ({ type }) => {
   /**
