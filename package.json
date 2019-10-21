@@ -13,6 +13,7 @@
     "test": "jest",
     "generate:schema": "apollo service:download --endpoint http://localhost:8000/___graphql ./schema.json",
     "generate:types": "apollo client:codegen --addTypename --outputFlat --tagName=graphql --target=typescript --localSchemaFile=./schema.json --includes=./src/**/*.tsx ./src/gatsby-queries.d.ts",
+    "generate:watch": "npx nodemon --ignore 'gatsby-queries.d.ts' --watch 'src' -e ts,tsx,js,jsx --exec 'yarn generate:types'",
     "generate": "yarn generate:schema && yarn generate:types"
   },
   "dependencies": {
