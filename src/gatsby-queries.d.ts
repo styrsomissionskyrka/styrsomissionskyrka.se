@@ -77,6 +77,27 @@ export interface IndexQueryVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: PageQuery
+// ====================================================
+
+export interface PageQuery_contentfulPage {
+  __typename: 'ContentfulPage';
+  title: string | null;
+}
+
+export interface PageQuery {
+  contentfulPage: PageQuery_contentfulPage | null;
+}
+
+export interface PageQueryVariables {
+  id?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: EventQuery
 // ====================================================
 
@@ -91,27 +112,6 @@ export interface EventQuery {
 }
 
 export interface EventQueryVariables {
-  id?: string | null;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL query operation: PageQuery
-// ====================================================
-
-export interface PageQuery_contentfulPage {
-  __typename: 'ContentfulPage';
-  title: string | null;
-}
-
-export interface PageQuery {
-  contentfulPage: PageQuery_contentfulPage | null;
-}
-
-export interface PageQueryVariables {
   id?: string | null;
 }
 
