@@ -1,7 +1,7 @@
 node_modules
-foo
 dist
 .cache
 public
 .env
 schema.json
+__generated__
