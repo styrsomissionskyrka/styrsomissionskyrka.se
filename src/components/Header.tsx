@@ -1,5 +1,6 @@
 import React from 'react';
 import { useStaticQuery, graphql, Link } from 'gatsby';
+import { Navigation, formatUrl } from '../navigation';
 import { MenuQuery } from './__generated__/MenuQuery';
 
 export const Header: React.FC = () => {
@@ -9,12 +10,21 @@ export const Header: React.FC = () => {
     <header>
       <nav>
         <ul>
+          <li>
+            <Link to={Navigation.HOME}>Hem</Link>
+          </li>
           {data.allContentfulPage.edges.map(
             ({ node }) =>
               node.slug &&
               node.title && (
                 <li key={node.id}>
-                  <Link to={'/' + node.slug}>{node.title}</Link>
+                  <Link
+                    to={formatUrl(Navigation.PAGE, {
+                      slug: node.slug,
+                    })}
+                  >
+                    {node.title}
+                  </Link>
                 </li>
               ),
           )}
@@ -27,7 +37,7 @@ export const Header: React.FC = () => {
 const MENU_QUERY = graphql`
   query MenuQuery {
     allContentfulPage(
-      filter: { includeInMenu: { eq: true } }
+      filter: { includeInMenu: { eq: true }, slug: { ne: "start" } }
       sort: { fields: menuPosition, order: ASC }
     ) {
       edges {

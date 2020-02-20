@@ -1,7 +1,8 @@
 import React from 'react';
 import { graphql, Link, PageComponentProps } from 'gatsby';
-import { IndexQuery } from './__generated__/IndexQuery';
 import { Header } from '../components/Header';
+import { Navigation, formatUrl } from '../navigation';
+import { IndexQuery } from './__generated__/IndexQuery';
 
 const IndexPage: React.FC<PageComponentProps<IndexQuery>> = ({ data }) => {
   const { site, allContentfulEvent } = data;
@@ -12,7 +13,11 @@ const IndexPage: React.FC<PageComponentProps<IndexQuery>> = ({ data }) => {
       <ul>
         {allContentfulEvent.edges.map(({ node }) => (
           <li key={node.id}>
-            <Link to={`/kalender/${node.slug}`}>
+            <Link
+              to={formatUrl(Navigation.EVENT, {
+                slug: node.slug ?? '',
+              })}
+            >
               {node.title} | {node.startDate}
             </Link>
           </li>

@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { promisify } from 'util';
 import { CreatePagesArgs } from 'gatsby';
+import { Navigation, formatUrl } from '../src/navigation';
 
 const access = promisify(fs.access);
 
@@ -54,7 +55,7 @@ async function createSinglePages({ graphql, actions }: CreatePagesArgs) {
   for (let event of data.events.edges) {
     const { node } = event;
     createPage({
-      path: `/kalender/${node.slug}`,
+      path: formatUrl(Navigation.EVENT, { slug: node.slug }),
       component: await resolveTemplate([
         `single-event-${node.slug}.tsx`,
         'single-event.tsx',
@@ -68,7 +69,7 @@ async function createSinglePages({ graphql, actions }: CreatePagesArgs) {
   for (let retreat of data.retreats.edges) {
     const { node } = retreat;
     createPage({
-      path: `/retreat/${node.slug}`,
+      path: formatUrl(Navigation.RETREAT, { slug: node.slug }),
       component: await resolveTemplate([
         `single-retreat-${node.slug}.tsx`,
         'single-retreat.tsx',
@@ -82,7 +83,7 @@ async function createSinglePages({ graphql, actions }: CreatePagesArgs) {
   for (let page of data.pages.edges) {
     const { node } = page;
     createPage({
-      path: `/${node.slug}`,
+      path: formatUrl(Navigation.PAGE, { slug: node.slug }),
       component: await resolveTemplate([`page-${node.slug}.tsx`, 'page.tsx']),
       context: {
         id: node.id,
