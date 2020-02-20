@@ -1,12 +1,12 @@
+import { SetFieldsOnGraphQLNodeTypeArgs } from 'gatsby';
 import { GraphQLFloat, GraphQLBoolean } from 'gatsby/graphql';
 
 /**
  * Add special fields to selected types in the graph schema
- *
- * @param {import('gatsby').SetFieldsOnGraphQLNodeTypeArgs} args
- * @returns {any}
  */
-export const setFieldsOnGraphQLNodeType = ({ type }) => {
+export const setFieldsOnGraphQLNodeType = ({
+  type,
+}: SetFieldsOnGraphQLNodeTypeArgs) => {
   /**
    * By default the contentful plugin doesn't treat date fields as anything
    * other than strings. But sometimes we want to query based on the dates and
@@ -16,15 +16,21 @@ export const setFieldsOnGraphQLNodeType = ({ type }) => {
     return {
       startDateTimestamp: {
         type: GraphQLFloat,
-        resolve: source => new Date(source.startDate).getTime(),
+        resolve: (source: any) => {
+          return new Date(source.startDate).getTime();
+        },
       },
       endDateTimestamp: {
         type: GraphQLFloat,
-        resolve: source => new Date(source.endDate).getTime(),
+        resolve: (source: any) => {
+          return new Date(source.endDate).getTime();
+        },
       },
       isFuture: {
         type: GraphQLBoolean,
-        resolve: source => new Date(source.startDate).getTime() > Date.now(),
+        resolve: (source: any) => {
+          return new Date(source.startDate).getTime() > Date.now();
+        },
       },
     };
   }

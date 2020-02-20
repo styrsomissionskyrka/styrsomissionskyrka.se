@@ -1,4 +1,4 @@
-const { createRootWrapper, createPageWrapper } = require('./gatsby/wrap');
+import { createRootWrapper, createPageWrapper } from './gatsby/wrap';
 
-exports.wrapRootElement = createRootWrapper();
-exports.wrapPageElement = createPageWrapper();
+export const wrapRootElement = createRootWrapper();
+export const wrapPageElement = createPageWrapper();

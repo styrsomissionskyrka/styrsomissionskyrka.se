@@ -1,4 +1,12 @@
 require('dotenv').config();
+require('ts-node').register({
+  compilerOptions: {
+    module: 'commonjs',
+    target: 'es2017',
+    strict: false,
+  },
+});
+
 const path = require('path');
 
 module.exports = {

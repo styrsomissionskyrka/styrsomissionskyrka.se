@@ -1,29 +1,22 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { promisify } from 'util';
+import { CreatePagesArgs } from 'gatsby';
 
 const access = promisify(fs.access);
 
 /**
  * Part of gatsbys node api this function will fetch data from the GraphAPI and
  * generate pages based on the returned content.
- *
- * @param {import('gatsby').CreatePagesArgs} args
- * @param {import('gatsby').PluginOptions} [options]
- * @param {import('gatsby').PluginCallback} [callback]
- * @return {Promise<void>}
  */
-export const createPages = async ({ graphql, actions }) => {
-  await createSinglePages({ graphql, actions });
+export const createPages = async (args: CreatePagesArgs) => {
+  await createSinglePages(args);
 };
 
 /**
  * Create single pages based on data fetched from GraphAPI
- *
- * @param {import('gatsby').CreatePagesArgs} args
- * @return {Promise<void>}
  */
-async function createSinglePages({ graphql, actions }) {
+async function createSinglePages({ graphql, actions }: CreatePagesArgs) {
   const { createPage } = actions;
   const { data, errors } = await graphql(/* GraphQL */ `
     query PagesQuery {
@@ -100,11 +93,8 @@ async function createSinglePages({ graphql, actions }) {
 
 /**
  * Resolve the first available template path
- *
- * @param {string[]} templates Array of template paths
- * @return {string} Returns the first available template fill path
  */
-async function resolveTemplate(templates) {
+async function resolveTemplate(templates: string[]): Promise<string> {
   for (let file of templates) {
     const filePath = path.resolve(__dirname, '../src/templates', file);
     if (await exists(filePath)) return filePath;
@@ -118,12 +108,11 @@ async function resolveTemplate(templates) {
 /**
  * Check if a file exists on disk by determining if it's readable, or an optiona
  * other mode
- *
- * @param {import('fs').PathLike} file Path to file, absolute or relative doesn't matter
- * @param {number} [mode=fs.constants.R_OK] Access mode, use one of the available from fs.constants
- * @returns {Promise<boolean>}
  */
-async function exists(file, mode = fs.constants.R_OK) {
+async function exists(
+  file: string,
+  mode: number = fs.constants.R_OK,
+): Promise<boolean> {
   try {
     await access(file, mode);
     return true;
