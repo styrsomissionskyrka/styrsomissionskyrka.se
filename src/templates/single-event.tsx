@@ -1,18 +1,15 @@
 import React from 'react';
-import { graphql } from 'gatsby';
-import { EventQuery } from '../gatsby-queries';
+import { graphql, PageComponentProps } from 'gatsby';
+import { EventQuery } from './__generated__/EventQuery';
 
-interface Props {
-  data: EventQuery;
-}
-
-const Event: React.FC<Props> = ({ data }) => {
-  return <h1>{data.contentfulEvent && data.contentfulEvent.title}</h1>;
+const Event: React.FC<PageComponentProps<EventQuery>> = ({ data }) => {
+  const { contentfulEvent } = data;
+  return <h1>{contentfulEvent && contentfulEvent.title}</h1>;
 };
 
 export default Event;
 
-export const pageQuery = graphql`
+export const query = graphql`
   query EventQuery($id: String) {
     contentfulEvent(id: { eq: $id }) {
       startDate

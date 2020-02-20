@@ -1,13 +1,9 @@
 import React from 'react';
-import { graphql, Link } from 'gatsby';
-import { IndexQuery } from '../gatsby-queries';
+import { graphql, Link, PageComponentProps } from 'gatsby';
+import { IndexQuery } from './__generated__/IndexQuery';
 import { Header } from '../components/Header';
 
-interface Props {
-  data: IndexQuery;
-}
-
-const IndexPage = ({ data }: Props) => {
+const IndexPage: React.FC<PageComponentProps<IndexQuery>> = ({ data }) => {
   const { site, allContentfulEvent } = data;
   return (
     <div>
@@ -16,7 +12,7 @@ const IndexPage = ({ data }: Props) => {
       <ul>
         {allContentfulEvent.edges.map(({ node }) => (
           <li key={node.id}>
-            <Link to={`kalender/${node.slug}`}>
+            <Link to={`/kalender/${node.slug}`}>
               {node.title} | {node.startDate}
             </Link>
           </li>
@@ -28,8 +24,8 @@ const IndexPage = ({ data }: Props) => {
 
 export default IndexPage;
 
-export const pageQuery = graphql`
-  query IndexQuery($today: Float) {
+export const query = graphql`
+  query IndexQuery {
     site {
       siteMetadata {
         title
@@ -38,7 +34,7 @@ export const pageQuery = graphql`
 
     allContentfulEvent(
       sort: { fields: startDate, order: DESC }
-      filter: { startDateTimestamp: { gt: $today } }
+      filter: { isFuture: { eq: true } }
     ) {
       edges {
         node {

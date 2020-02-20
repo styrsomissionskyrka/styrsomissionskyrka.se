@@ -25,43 +25,36 @@ export const createPages = async ({ graphql, actions }) => {
  */
 async function createSinglePages({ graphql, actions }) {
   const { createPage } = actions;
-  const { data, errors } = await graphql(
-    /* GraphQL */ `
-      query PagesQuery($today: Float) {
-        events: allContentfulEvent(
-          filter: { startDateTimestamp: { gte: $today } }
-        ) {
-          edges {
-            node {
-              id
-              slug
-            }
-          }
-        }
-
-        retreats: allContentfulRetreat(
-          filter: { startDateTimestamp: { gte: $today } }
-        ) {
-          edges {
-            node {
-              id
-              slug
-            }
-          }
-        }
-
-        pages: allContentfulPage(filter: { slug: { ne: "start" } }) {
-          edges {
-            node {
-              id
-              slug
-            }
+  const { data, errors } = await graphql(/* GraphQL */ `
+    query PagesQuery {
+      events: allContentfulEvent(filter: { isFuture: { eq: true } }) {
+        edges {
+          node {
+            id
+            slug
           }
         }
       }
-    `,
-    { today: Date.now() },
-  );
+
+      retreats: allContentfulRetreat(filter: { isFuture: { eq: true } }) {
+        edges {
+          node {
+            id
+            slug
+          }
+        }
+      }
+
+      pages: allContentfulPage(filter: { slug: { ne: "start" } }) {
+        edges {
+          node {
+            id
+            slug
+          }
+        }
+      }
+    }
+  `);
 
   if (errors) throw errors;
 
@@ -70,8 +63,8 @@ async function createSinglePages({ graphql, actions }) {
     createPage({
       path: `/kalender/${node.slug}`,
       component: await resolveTemplate([
-        `../src/templates/single-event-${node.slug}.tsx`,
-        '../src/templates/single-event.tsx',
+        `single-event-${node.slug}.tsx`,
+        'single-event.tsx',
       ]),
       context: {
         id: node.id,
@@ -84,8 +77,8 @@ async function createSinglePages({ graphql, actions }) {
     createPage({
       path: `/retreat/${node.slug}`,
       component: await resolveTemplate([
-        `../src/templates/single-retreat-${node.slug}.tsx`,
-        '../src/templates/single-retreat.tsx',
+        `single-retreat-${node.slug}.tsx`,
+        'single-retreat.tsx',
       ]),
       context: {
         id: node.id,
@@ -97,10 +90,7 @@ async function createSinglePages({ graphql, actions }) {
     const { node } = page;
     createPage({
       path: `/${node.slug}`,
-      component: await resolveTemplate([
-        `../src/templates/page-${node.slug}.tsx`,
-        '../src/templates/page.tsx',
-      ]),
+      component: await resolveTemplate([`page-${node.slug}.tsx`, 'page.tsx']),
       context: {
         id: node.id,
       },
@@ -116,7 +106,7 @@ async function createSinglePages({ graphql, actions }) {
  */
 async function resolveTemplate(templates) {
   for (let file of templates) {
-    const filePath = path.resolve(__dirname, file);
+    const filePath = path.resolve(__dirname, '../src/templates', file);
     if (await exists(filePath)) return filePath;
   }
 

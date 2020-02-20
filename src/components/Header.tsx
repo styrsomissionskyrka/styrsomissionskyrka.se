@@ -1,24 +1,9 @@
 import React from 'react';
 import { useStaticQuery, graphql, Link } from 'gatsby';
-import { MenuQuery } from '../gatsby-queries';
+import { MenuQuery } from './__generated__/MenuQuery';
 
 export const Header: React.FC = () => {
-  const data = useStaticQuery<MenuQuery>(graphql`
-    query MenuQuery {
-      allContentfulPage(
-        filter: { includeInMenu: { eq: true } }
-        sort: { fields: menuPosition, order: ASC }
-      ) {
-        edges {
-          node {
-            id
-            slug
-            title
-          }
-        }
-      }
-    }
-  `);
+  const data = useStaticQuery<MenuQuery>(MENU_QUERY);
 
   return (
     <header>
@@ -29,7 +14,7 @@ export const Header: React.FC = () => {
               node.slug &&
               node.title && (
                 <li key={node.id}>
-                  <Link to={node.slug}>{node.title}</Link>
+                  <Link to={'/' + node.slug}>{node.title}</Link>
                 </li>
               ),
           )}
@@ -38,3 +23,20 @@ export const Header: React.FC = () => {
     </header>
   );
 };
+
+const MENU_QUERY = graphql`
+  query MenuQuery {
+    allContentfulPage(
+      filter: { includeInMenu: { eq: true } }
+      sort: { fields: menuPosition, order: ASC }
+    ) {
+      edges {
+        node {
+          id
+          slug
+          title
+        }
+      }
+    }
+  }
+`;

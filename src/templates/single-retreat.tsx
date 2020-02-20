@@ -1,18 +1,15 @@
 import React from 'react';
-import { graphql, PageRendererProps } from 'gatsby';
-import { RetreatQuery } from '../gatsby-queries';
+import { graphql, PageComponentProps } from 'gatsby';
+import { RetreatQuery } from './__generated__/RetreatQuery';
 
-interface Props extends PageRendererProps {
-  data: RetreatQuery;
-}
-
-const Event: React.FC<Props> = ({ data }) => {
-  return <h1>{data.contentfulRetreat && data.contentfulRetreat.title}</h1>;
+const Event: React.FC<PageComponentProps<RetreatQuery>> = ({ data }) => {
+  const { contentfulRetreat } = data;
+  return <h1>{contentfulRetreat && contentfulRetreat.title}</h1>;
 };
 
 export default Event;
 
-export const pageQuery = graphql`
+export const query = graphql`
   query RetreatQuery($id: String) {
     contentfulRetreat(id: { eq: $id }) {
       startDate

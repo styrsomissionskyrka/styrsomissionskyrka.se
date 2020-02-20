@@ -1,4 +1,5 @@
 require('dotenv').config();
+const path = require('path');
 
 module.exports = {
   siteMetadata: {
@@ -41,5 +42,12 @@ module.exports = {
     'gatsby-plugin-typescript',
     'gatsby-plugin-extract-schema',
     'gatsby-plugin-styled-components',
+    {
+      resolve: 'gatsby-plugin-page-creator',
+      options: {
+        path: path.join(__dirname, './src/pages'),
+        ignore: ['__generated__/**'],
+      },
+    },
   ],
 };
