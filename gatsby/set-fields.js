@@ -1,4 +1,4 @@
-import { GraphQLFloat } from 'gatsby/graphql';
+import { GraphQLFloat, GraphQLBoolean } from 'gatsby/graphql';
 
 /**
  * Add special fields to selected types in the graph schema
@@ -21,6 +21,10 @@ export const setFieldsOnGraphQLNodeType = ({ type }) => {
       endDateTimestamp: {
         type: GraphQLFloat,
         resolve: source => new Date(source.endDate).getTime(),
+      },
+      isFuture: {
+        type: GraphQLBoolean,
+        resolve: source => new Date(source.startDate).getTime() > Date.now(),
       },
     };
   }
