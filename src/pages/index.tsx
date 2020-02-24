@@ -1,22 +1,18 @@
 import React from 'react';
 import { graphql, Link, PageComponentProps } from 'gatsby';
-import { Header } from '../components/Header';
 import { Navigation, formatUrl } from '../navigation';
 import { IndexQuery } from './__generated__/IndexQuery';
 
 const IndexPage: React.FC<PageComponentProps<IndexQuery>> = ({ data }) => {
-  const { site, allContentfulEvent } = data;
+  const { site, events } = data;
+  console.log(events);
   return (
     <div>
       <h1>{site?.siteMetadata?.title}</h1>
       <ul>
-        {allContentfulEvent.edges.map(({ node }) => (
+        {events.edges.map(({ node }) => (
           <li key={node.id}>
-            <Link
-              to={formatUrl(Navigation.EVENT, {
-                slug: node.slug ?? '',
-              })}
-            >
+            <Link to={formatUrl(Navigation.EVENT, { slug: node.slug ?? '' })}>
               {node.title} | {node.startDate}
             </Link>
           </li>
@@ -36,7 +32,21 @@ export const query = graphql`
       }
     }
 
-    allContentfulEvent(
+    events: allContentfulEvent(
+      sort: { fields: startDate, order: DESC }
+      filter: { isFuture: { eq: true } }
+    ) {
+      edges {
+        node {
+          id
+          title
+          slug
+          startDate
+        }
+      }
+    }
+
+    retreats: allContentfulRetreat(
       sort: { fields: startDate, order: DESC }
       filter: { isFuture: { eq: true } }
     ) {
