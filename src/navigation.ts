@@ -1,5 +1,7 @@
 import { insertParams } from '@reach/router/lib/utils';
 
+type Typename = 'ContentfulPage' | 'ContentfulEvent' | 'ContentfulRetreat';
+
 export class Navigation {
   static HOME = '/';
 
@@ -10,6 +12,17 @@ export class Navigation {
 
   static RETREATS = '/retreater';
   static RETREAT = `${Navigation.RETREATS}/:slug`;
+
+  static fromTypename(typename: Typename): string {
+    switch (typename) {
+      case 'ContentfulPage':
+        return Navigation.PAGE;
+      case 'ContentfulEvent':
+        return Navigation.EVENT;
+      case 'ContentfulRetreat':
+        return Navigation.RETREAT;
+    }
+  }
 }
 
 export const formatUrl = (

@@ -1,22 +1,25 @@
 import React from 'react';
 import { useStaticQuery, graphql, Link } from 'gatsby';
 import { Navigation, formatUrl } from '../navigation';
+import { isNotNull } from '../utils';
 import { MenuQuery } from './__generated__/MenuQuery';
 
 export const Header: React.FC = () => {
   const data = useStaticQuery<MenuQuery>(MENU_QUERY);
+  const menuItems = (data.menu?.items ?? []).filter(isNotNull);
 
   return (
     <header>
       <nav>
         <ul>
-          <li>
-            <Link to={Navigation.HOME}>Hem</Link>
-          </li>
-          {data.allContentfulPage.edges.map(({ node }) => (
-            <li key={node.id}>
-              <Link to={formatUrl(Navigation.PAGE, { slug: node.slug ?? '' })}>
-                {node.title}
+          {menuItems.map(item => (
+            <li key={item.id}>
+              <Link
+                to={formatUrl(Navigation.fromTypename(item.__typename), {
+                  slug: item.slug ?? '',
+                })}
+              >
+                {item.title}
               </Link>
             </li>
           ))}
@@ -28,16 +31,14 @@ export const Header: React.FC = () => {
 
 const MENU_QUERY = graphql`
   query MenuQuery {
-    allContentfulPage(
-      filter: { includeInMenu: { eq: true }, slug: { ne: "start" } }
-      sort: { fields: menuPosition, order: ASC }
-    ) {
-      edges {
-        node {
-          id
-          slug
-          title
-        }
+    menu: contentfulMenu(position: { eq: "top" }) {
+      id
+      name
+      items {
+        __typename
+        id
+        title
+        slug
       }
     }
   }
