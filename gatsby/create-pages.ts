@@ -1,10 +1,6 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import { promisify } from 'util';
 import { CreatePagesArgs } from 'gatsby';
 import { Navigation, formatUrl } from '../src/navigation';
-
-const access = promisify(fs.access);
+import { resolveTemplate } from './utils';
 
 /**
  * Part of gatsbys node api this function will fetch data from the GraphAPI and
@@ -18,43 +14,12 @@ export const createPages = async (args: CreatePagesArgs) => {
  * Create single pages based on data fetched from GraphAPI
  */
 async function createSinglePages({ graphql, actions }: CreatePagesArgs) {
-  const { createPage } = actions;
-  const { data, errors } = await graphql(/* GraphQL */ `
-    query PagesQuery {
-      events: allContentfulEvent(filter: { isFuture: { eq: true } }) {
-        edges {
-          node {
-            id
-            slug
-          }
-        }
-      }
-
-      retreats: allContentfulRetreat(filter: { isFuture: { eq: true } }) {
-        edges {
-          node {
-            id
-            slug
-          }
-        }
-      }
-
-      pages: allContentfulPage(filter: { slug: { ne: "start" } }) {
-        edges {
-          node {
-            id
-            slug
-          }
-        }
-      }
-    }
-  `);
-
+  const { data, errors } = await graphql<PagesQuery>(PAGES_QUERY);
   if (errors) throw errors;
 
   for (let event of data.events.edges) {
     const { node } = event;
-    createPage({
+    actions.createPage({
       path: formatUrl(Navigation.EVENT, { slug: node.slug }),
       component: await resolveTemplate([
         `single-event-${node.slug}.tsx`,
@@ -68,7 +33,7 @@ async function createSinglePages({ graphql, actions }: CreatePagesArgs) {
 
   for (let retreat of data.retreats.edges) {
     const { node } = retreat;
-    createPage({
+    actions.createPage({
       path: formatUrl(Navigation.RETREAT, { slug: node.slug }),
       component: await resolveTemplate([
         `single-retreat-${node.slug}.tsx`,
@@ -82,7 +47,7 @@ async function createSinglePages({ graphql, actions }: CreatePagesArgs) {
 
   for (let page of data.pages.edges) {
     const { node } = page;
-    createPage({
+    actions.createPage({
       path: formatUrl(Navigation.PAGE, { slug: node.slug }),
       component: await resolveTemplate([`page-${node.slug}.tsx`, 'page.tsx']),
       context: {
@@ -93,31 +58,48 @@ async function createSinglePages({ graphql, actions }: CreatePagesArgs) {
 }
 
 /**
- * Resolve the first available template path
+ * QUERIES and TYPES
  */
-async function resolveTemplate(templates: string[]): Promise<string> {
-  for (let file of templates) {
-    const filePath = path.resolve(__dirname, '../src/templates', file);
-    if (await exists(filePath)) return filePath;
-  }
+const PAGES_QUERY = /* GraphQL */ `
+  query PagesQuery {
+    events: allContentfulEvent(filter: { isFuture: { eq: true } }) {
+      edges {
+        node {
+          id
+          slug
+        }
+      }
+    }
 
-  throw new Error(
-    `Could not locate any of the following templates: ${templates.join(' ,')}`,
-  );
+    retreats: allContentfulRetreat(filter: { isFuture: { eq: true } }) {
+      edges {
+        node {
+          id
+          slug
+        }
+      }
+    }
+
+    pages: allContentfulPage(filter: { slug: { ne: "start" } }) {
+      edges {
+        node {
+          id
+          slug
+        }
+      }
+    }
+  }
+`;
+
+interface PagesQuery {
+  events: { edges: Edge[] };
+  retreats: { edges: Edge[] };
+  pages: { edges: Edge[] };
 }
 
-/**
- * Check if a file exists on disk by determining if it's readable, or an optiona
- * other mode
- */
-async function exists(
-  file: string,
-  mode: number = fs.constants.R_OK,
-): Promise<boolean> {
-  try {
-    await access(file, mode);
-    return true;
-  } catch (err) {
-    return false;
-  }
+interface Edge {
+  node: {
+    id: string;
+    slug: string;
+  };
 }
