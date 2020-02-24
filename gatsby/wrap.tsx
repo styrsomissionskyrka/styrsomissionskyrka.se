@@ -1,5 +1,6 @@
 import React from 'react';
 import { WrapPageElementBrowserArgs, WrapRootElementBrowserArgs } from 'gatsby';
+import { Layout } from '../src/components/Layout';
 
 /**
  * Create a root wrapper to wrap around the full application. Useful for
@@ -24,5 +25,9 @@ export const createRootWrapper = (): React.FC<WrapRootElementBrowserArgs> => ({
 export const createPageWrapper = (): React.FC<WrapPageElementBrowserArgs> => ({
   element,
 }) => {
-  return <React.Fragment>{element}</React.Fragment>;
+  return (
+    <React.Fragment>
+      <Layout>{element}</Layout>
+    </React.Fragment>
+  );
 };

@@ -8,7 +8,6 @@ const IndexPage: React.FC<PageComponentProps<IndexQuery>> = ({ data }) => {
   const { site, allContentfulEvent } = data;
   return (
     <div>
-      <Header />
       <h1>{site?.siteMetadata?.title}</h1>
       <ul>
         {allContentfulEvent.edges.map(({ node }) => (
