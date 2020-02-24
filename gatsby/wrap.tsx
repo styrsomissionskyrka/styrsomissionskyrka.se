@@ -1,7 +1,5 @@
 import React from 'react';
 import { WrapPageElementBrowserArgs, WrapRootElementBrowserArgs } from 'gatsby';
-import { ThemeProvider } from 'styled-components';
-import { theme } from '../src/styles/theme';
 
 /**
  * Create a root wrapper to wrap around the full application. Useful for
@@ -13,7 +11,7 @@ import { theme } from '../src/styles/theme';
 export const createRootWrapper = (): React.FC<WrapRootElementBrowserArgs> => ({
   element,
 }) => {
-  return <ThemeProvider theme={theme}>{element}</ThemeProvider>;
+  return <React.Fragment>{element}</React.Fragment>;
 };
 
 /**
