@@ -1793,6 +1793,22 @@
     prop-types "^15.6.1"
     react-lifecycles-compat "^3.0.4"
 
+"@reach/skip-nav@^0.8.5":
+  version "0.8.5"
+  resolved "https://registry.yarnpkg.com/@reach/skip-nav/-/skip-nav-0.8.5.tgz#2f336098478ca69a5dae557b2ad08255babf3c43"
+  integrity sha512-aYvft4TroNQjgXyhzwXP7l3ejQ6/3ImCMntDMsme3+DFbwAY/azLZhUsZfGbIFzE+nzR8fnIY70aKyaVo0bHgQ==
+  dependencies:
+    "@reach/utils" "^0.8.5"
+    tslib "^1.10.0"
+
+"@reach/utils@^0.8.5":
+  version "0.8.5"
+  resolved "https://registry.yarnpkg.com/@reach/utils/-/utils-0.8.5.tgz#6675d6f81054c8dce1b9d535280b0e3c5174fe7d"
+  integrity sha512-nc84exIqBa+EohJPBFjePQP88dBAP4l+tChxwWszzZ+R6tTtSgOg40WyQ5EjPYJFbltnbZIbASHefcEBrFxqng==
+  dependencies:
+    tslib "^1.10.0"
+    warning "^4.0.3"
+
 "@samverschueren/stream-to-observable@^0.3.0":
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/@samverschueren/stream-to-observable/-/stream-to-observable-0.3.0.tgz#ecdf48d532c58ea477acfcab80348424f8d0662f"
@@ -15113,6 +15129,11 @@ tslib@^1, tslib@^1.6.0, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.10.0.tgz#c3c19f95973fb0a62973fb09d90d961ee43e5c8a"
   integrity sha512-qOebF53frne81cf0S9B41ByenJ3/IuH8yJKngAX35CmiZySA0khhkovshKK+jGCaMnVomla7gVlIcc3EvKPbTQ==
+
+tslib@^1.10.0:
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.11.0.tgz#f1f3528301621a53220d58373ae510ff747a66bc"
+  integrity sha512-BmndXUtiTn/VDDrJzQE7Mm22Ix3PxgLltW9bSNLoeCY31gnG2OPx0QqJnuc9oMIKioYrz487i6K9o4Pdn0j+Kg==
 
 tsutils@^3.17.1:
   version "3.17.1"

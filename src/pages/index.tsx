@@ -5,7 +5,7 @@ import { IndexQuery } from './__generated__/IndexQuery';
 
 const IndexPage: React.FC<PageComponentProps<IndexQuery>> = ({ data }) => {
   const { site, events } = data;
-  console.log(events);
+
   return (
     <div>
       <h1>{site?.siteMetadata?.title}</h1>
@@ -33,7 +33,8 @@ export const query = graphql`
     }
 
     events: allContentfulEvent(
-      sort: { fields: startDate, order: DESC }
+      limit: 5
+      sort: { fields: startDate, order: ASC }
       filter: { isFuture: { eq: true } }
     ) {
       edges {
@@ -47,7 +48,7 @@ export const query = graphql`
     }
 
     retreats: allContentfulRetreat(
-      sort: { fields: startDate, order: DESC }
+      sort: { fields: startDate, order: ASC }
       filter: { isFuture: { eq: true } }
     ) {
       edges {
