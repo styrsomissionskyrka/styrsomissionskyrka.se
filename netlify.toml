@@ -1,6 +1,6 @@
 [build]
-  command = "yarn generate && yarn build"
-  publish = "build"
+  command = "yarn schema && yarn build"
+  publish = "public"
 
 [[redirects]]
   from = "/*"

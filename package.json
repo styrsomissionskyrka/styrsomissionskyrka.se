@@ -11,10 +11,10 @@
     "build": "gatsby build",
     "serve": "gatsby serve",
     "test": "jest",
-    "generate:schema": "echo '\n' > ./repl && yarn gatsby repl < ./repl && rm -rf ./repl",
-    "generate:types": "apollo client:codegen --addTypename --target=typescript --localSchemaFile=./schema.json --includes=./src/**/*.tsx",
-    "generate:watch": "npx nodemon --ignore '__generated__/**' --watch 'src' -e ts,tsx,js,jsx --exec 'yarn generate:types'",
-    "generate": "yarn generate:schema && yarn generate:types"
+    "schema:download": "echo '\n' > ./repl && yarn gatsby repl < ./repl && rm -rf ./repl",
+    "schema:types": "apollo client:codegen --addTypename --target=typescript --localSchemaFile=./schema.json --includes=./src/**/*.tsx",
+    "schema:watch": "npx nodemon --ignore '__generated__/**' --watch 'src' -e ts,tsx,js,jsx --exec 'yarn schema:types'",
+    "schema": "yarn schema:download && yarn schema:types"
   },
   "dependencies": {
     "react": "^16.12.0",
