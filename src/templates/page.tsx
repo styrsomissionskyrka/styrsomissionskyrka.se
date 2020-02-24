@@ -4,7 +4,7 @@ import { PageQuery } from './__generated__/PageQuery';
 
 const Event: React.FC<PageComponentProps<PageQuery>> = ({ data }) => {
   const { contentfulPage } = data;
-  return <h1>{contentfulPage && contentfulPage.title}</h1>;
+  return <h1>{contentfulPage?.title}</h1>;
 };
 
 export default Event;

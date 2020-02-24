@@ -4,7 +4,7 @@ import { EventQuery } from './__generated__/EventQuery';
 
 const Event: React.FC<PageComponentProps<EventQuery>> = ({ data }) => {
   const { contentfulEvent } = data;
-  return <h1>{contentfulEvent && contentfulEvent.title}</h1>;
+  return <h1>{contentfulEvent?.title}</h1>;
 };
 
 export default Event;

@@ -4,7 +4,7 @@ import { RetreatQuery } from './__generated__/RetreatQuery';
 
 const Event: React.FC<PageComponentProps<RetreatQuery>> = ({ data }) => {
   const { contentfulRetreat } = data;
-  return <h1>{contentfulRetreat && contentfulRetreat.title}</h1>;
+  return <h1>{contentfulRetreat?.title}</h1>;
 };
 
 export default Event;

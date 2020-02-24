@@ -13,21 +13,13 @@ export const Header: React.FC = () => {
           <li>
             <Link to={Navigation.HOME}>Hem</Link>
           </li>
-          {data.allContentfulPage.edges.map(
-            ({ node }) =>
-              node.slug &&
-              node.title && (
-                <li key={node.id}>
-                  <Link
-                    to={formatUrl(Navigation.PAGE, {
-                      slug: node.slug,
-                    })}
-                  >
-                    {node.title}
-                  </Link>
-                </li>
-              ),
-          )}
+          {data.allContentfulPage.edges.map(({ node }) => (
+            <li key={node.id}>
+              <Link to={formatUrl(Navigation.PAGE, { slug: node.slug ?? '' })}>
+                {node.title}
+              </Link>
+            </li>
+          ))}
         </ul>
       </nav>
     </header>

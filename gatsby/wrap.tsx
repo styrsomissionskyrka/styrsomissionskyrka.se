@@ -1,12 +1,7 @@
 import React from 'react';
-import { PluginOptions } from 'gatsby';
+import { WrapPageElementBrowserArgs, WrapRootElementBrowserArgs } from 'gatsby';
 import { ThemeProvider } from 'styled-components';
 import { theme } from '../src/styles/theme';
-
-interface Props {
-  element: React.ReactNode;
-  pluginOptions: PluginOptions;
-}
 
 /**
  * Create a root wrapper to wrap around the full application. Useful for
@@ -15,7 +10,9 @@ interface Props {
  * The first wrapping function is there for future use to make it possible to
  * alter the root wrapper based on if it's ssr or browser.
  */
-export const createRootWrapper = (): React.FC<Props> => ({ element }) => {
+export const createRootWrapper = (): React.FC<WrapRootElementBrowserArgs> => ({
+  element,
+}) => {
   return <ThemeProvider theme={theme}>{element}</ThemeProvider>;
 };
 
@@ -26,6 +23,8 @@ export const createRootWrapper = (): React.FC<Props> => ({ element }) => {
  * The first wrapping function is there for future use to make it possible to
  * alter the root wrapper based on if it's ssr or browser.
  */
-export const createPageWrapper = (): React.FC<Props> => ({ element }) => {
+export const createPageWrapper = (): React.FC<WrapPageElementBrowserArgs> => ({
+  element,
+}) => {
   return <React.Fragment>{element}</React.Fragment>;
 };

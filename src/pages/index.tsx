@@ -9,7 +9,7 @@ const IndexPage: React.FC<PageComponentProps<IndexQuery>> = ({ data }) => {
   return (
     <div>
       <Header />
-      <h1>{site && site.siteMetadata && site.siteMetadata.title}</h1>
+      <h1>{site?.siteMetadata?.title}</h1>
       <ul>
         {allContentfulEvent.edges.map(({ node }) => (
           <li key={node.id}>
