@@ -22,7 +22,6 @@ module.exports = {
       options: {
         spaceId: process.env.CONTENTFUL_SPACE_ID,
         accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
-        host: process.env.CONTENTFUL_HOST,
       },
     },
     {
@@ -52,11 +51,11 @@ module.exports = {
       },
     },
     'gatsby-plugin-react-helmet',
-    'gatsby-transformer-sharp',
     'gatsby-plugin-sharp',
     'gatsby-plugin-offline',
     'gatsby-plugin-typescript',
     'gatsby-plugin-extract-schema',
     'gatsby-plugin-postcss',
+    'gatsby-transformer-sharp',
   ],
 };

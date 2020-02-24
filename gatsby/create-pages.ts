@@ -80,7 +80,7 @@ const PAGES_QUERY = /* GraphQL */ `
       }
     }
 
-    pages: allContentfulPage(filter: { slug: { ne: "start" } }) {
+    pages: allContentfulPage(filter: { slug: { ne: "/" } }) {
       edges {
         node {
           id

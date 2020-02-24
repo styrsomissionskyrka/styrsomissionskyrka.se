@@ -16,7 +16,7 @@ export const Header: React.FC = () => {
             <li key={item.id}>
               <Link
                 to={formatUrl(Navigation.fromTypename(item.__typename), {
-                  slug: item.slug ?? '',
+                  slug: item.slug === '/' ? '' : item.slug ?? '',
                 })}
               >
                 {item.title}
