@@ -1,6 +1,6 @@
 import { CreatePagesArgs } from 'gatsby';
 import { resolveTemplate } from './utils';
-import { Navigation, formatUrl, formatPaginatedUrl } from '../src/navigation';
+import { Navigation, formatPaginatedUrl } from '../src/navigation';
 
 /**
  * Part of gatsbys node api this function will fetch data from the GraphAPI and

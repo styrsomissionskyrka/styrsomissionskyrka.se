@@ -33,9 +33,13 @@ export const formatUrl = (
   return insertParams(path, params);
 };
 
-export const formatPaginatedUrl = (base: string, page: number) => {
+export const formatPaginatedUrl = (
+  base: string,
+  page: number,
+  pageSuffix: string = Navigation.PAGINATED,
+) => {
   if (page > 1) {
-    return formatUrl(removeTrailingSlash(base) + Navigation.PAGINATED, {
+    return formatUrl(removeTrailingSlash(base) + pageSuffix, {
       page,
     });
   }
