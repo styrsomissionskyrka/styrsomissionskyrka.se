@@ -4,6 +4,7 @@ type Typename = 'ContentfulPage' | 'ContentfulEvent' | 'ContentfulRetreat';
 
 export class Navigation {
   static HOME = '/';
+  static PAGINATED = '/sida/:page';
 
   static PAGE = '/:slug';
 
@@ -30,4 +31,20 @@ export const formatUrl = (
   params: Record<string, string | number | null | undefined>,
 ): string => {
   return insertParams(path, params);
+};
+
+export const formatPaginatedUrl = (base: string, page: number) => {
+  if (page > 1) {
+    return formatUrl(removeTrailingSlash(base) + Navigation.PAGINATED, {
+      page,
+    });
+  }
+
+  return base;
+};
+
+export const removeLeadingSlash = (path: string) => path.replace(/^\//, '');
+export const removeTrailingSlash = (path: string) => path.replace(/\/$/, '');
+export const removeSlashes = (path: string) => {
+  return removeLeadingSlash(removeTrailingSlash(path));
 };

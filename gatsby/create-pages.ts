@@ -1,5 +1,6 @@
 import { CreatePagesArgs } from 'gatsby';
 import { resolveTemplate } from './utils';
+import { Navigation, formatUrl, formatPaginatedUrl } from '../src/navigation';
 
 /**
  * Part of gatsbys node api this function will fetch data from the GraphAPI and
@@ -7,6 +8,7 @@ import { resolveTemplate } from './utils';
  */
 export const createPages = async (args: CreatePagesArgs) => {
   await createSinglePages(args);
+  await createArchivePages(args);
 };
 
 /**
@@ -56,12 +58,60 @@ async function createSinglePages({ graphql, actions }: CreatePagesArgs) {
   }
 }
 
+async function createArchivePages({ graphql, actions }: CreatePagesArgs) {
+  const ITEMS_PER_PAGE = 10;
+  const { data, errors } = await graphql<ArchivesQuery, ArchivesQueryVariables>(
+    ARCHIVES_QUERY,
+    { limit: ITEMS_PER_PAGE },
+  );
+
+  if (errors) throw errors;
+
+  const createPaginatedArchive = ({
+    pathBase,
+    totalCount,
+    component,
+  }: {
+    pathBase: string;
+    totalCount: number;
+    component: string;
+  }) => {
+    const totalPages =
+      Math.floor(totalCount / ITEMS_PER_PAGE) + (totalCount % ITEMS_PER_PAGE);
+
+    for (let i = 1; i <= totalPages; i++) {
+      actions.createPage({
+        path: formatPaginatedUrl(pathBase, i),
+        component,
+        context: {
+          limit: ITEMS_PER_PAGE,
+          skip: ITEMS_PER_PAGE * (i - 1),
+        },
+      });
+    }
+  };
+
+  const { events, retreats } = data;
+
+  createPaginatedArchive({
+    pathBase: Navigation.EVENTS,
+    totalCount: events.totalCount,
+    component: await resolveTemplate(['archive-events.tsx']),
+  });
+
+  createPaginatedArchive({
+    pathBase: Navigation.RETREATS,
+    totalCount: retreats.totalCount,
+    component: await resolveTemplate(['archive-retreats.tsx']),
+  });
+}
+
 /**
  * QUERIES and TYPES
  */
 const PAGES_QUERY = /* GraphQL */ `
   query PagesQuery {
-    events: allContentfulEvent(filter: { isFuture: { eq: true } }) {
+    events: allContentfulEvent(limit: 100, filter: { isFuture: { eq: true } }) {
       edges {
         node {
           id
@@ -71,7 +121,10 @@ const PAGES_QUERY = /* GraphQL */ `
       }
     }
 
-    retreats: allContentfulRetreat(filter: { isFuture: { eq: true } }) {
+    retreats: allContentfulRetreat(
+      limit: 100
+      filter: { isFuture: { eq: true } }
+    ) {
       edges {
         node {
           id
@@ -81,7 +134,7 @@ const PAGES_QUERY = /* GraphQL */ `
       }
     }
 
-    pages: allContentfulPage(filter: { slug: { ne: "/" } }) {
+    pages: allContentfulPage(limit: 100, filter: { slug: { ne: "/" } }) {
       edges {
         node {
           id
@@ -105,4 +158,31 @@ interface Edge {
     slug: string;
     formattedSlug: string;
   };
+}
+
+const ARCHIVES_QUERY = /* GraphQL */ `
+  query ArchivesQuery($limit: Int!) {
+    events: allContentfulEvent(
+      limit: $limit
+      filter: { isFuture: { eq: true } }
+    ) {
+      totalCount
+    }
+
+    retreats: allContentfulRetreat(
+      limit: $limit
+      filter: { isFuture: { eq: true } }
+    ) {
+      totalCount
+    }
+  }
+`;
+
+interface ArchivesQuery {
+  events: { totalCount: number };
+  retreats: { totalCount: number };
+}
+
+interface ArchivesQueryVariables {
+  limit: number;
 }
