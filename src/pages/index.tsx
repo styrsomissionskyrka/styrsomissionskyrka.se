@@ -4,11 +4,10 @@ import { Navigation, formatUrl } from '../navigation';
 import { IndexQuery } from './__generated__/IndexQuery';
 
 const IndexPage: React.FC<PageComponentProps<IndexQuery>> = ({ data }) => {
-  const { site, events } = data;
+  const { events } = data;
 
   return (
     <div>
-      <h1>{site?.siteMetadata?.title}</h1>
       <ul>
         {events.edges.map(({ node }) => (
           <li key={node.id}>
@@ -26,9 +25,9 @@ export default IndexPage;
 
 export const query = graphql`
   query IndexQuery {
-    site {
-      siteMetadata {
-        title
+    page: contentfulPage(slug: { eq: "/" }) {
+      content {
+        json
       }
     }
 

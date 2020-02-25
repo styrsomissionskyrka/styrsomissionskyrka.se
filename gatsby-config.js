@@ -14,7 +14,7 @@ module.exports = {
   siteMetadata: {
     title: 'Styrsö Missionskyrka',
     description: '-',
-    author: '@adambrgmn',
+    siteUrl: 'https://www.styrsomissionskyrka.se',
   },
   plugins: [
     {
@@ -34,13 +34,13 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
-        name: 'styrso-missionskyrka',
+        name: 'Styrsö Missionskyrka',
         short_name: 'SMK',
         start_url: '/',
-        background_color: '#663399',
-        theme_color: '#663399',
+        background_color: '#921755',
+        theme_color: '#921755',
         display: 'minimal-ui',
-        icon: 'src/images/gatsby-icon.png', // This path is relative to the root of the site.
+        icon: 'src/images/smk-icon.png',
       },
     },
     {
