@@ -1,5 +1,4 @@
 import { CreatePagesArgs } from 'gatsby';
-import { Navigation, formatUrl } from '../src/navigation';
 import { resolveTemplate } from './utils';
 
 /**
@@ -20,7 +19,7 @@ async function createSinglePages({ graphql, actions }: CreatePagesArgs) {
   for (let event of data.events.edges) {
     const { node } = event;
     actions.createPage({
-      path: formatUrl(Navigation.EVENT, { slug: node.slug }),
+      path: node.formattedSlug,
       component: await resolveTemplate([
         `single-event-${node.slug}.tsx`,
         'single-event.tsx',
@@ -34,7 +33,7 @@ async function createSinglePages({ graphql, actions }: CreatePagesArgs) {
   for (let retreat of data.retreats.edges) {
     const { node } = retreat;
     actions.createPage({
-      path: formatUrl(Navigation.RETREAT, { slug: node.slug }),
+      path: node.formattedSlug,
       component: await resolveTemplate([
         `single-retreat-${node.slug}.tsx`,
         'single-retreat.tsx',
@@ -48,7 +47,7 @@ async function createSinglePages({ graphql, actions }: CreatePagesArgs) {
   for (let page of data.pages.edges) {
     const { node } = page;
     actions.createPage({
-      path: formatUrl(Navigation.PAGE, { slug: node.slug }),
+      path: node.formattedSlug,
       component: await resolveTemplate([`page-${node.slug}.tsx`, 'page.tsx']),
       context: {
         id: node.id,
@@ -67,6 +66,7 @@ const PAGES_QUERY = /* GraphQL */ `
         node {
           id
           slug
+          formattedSlug
         }
       }
     }
@@ -76,6 +76,7 @@ const PAGES_QUERY = /* GraphQL */ `
         node {
           id
           slug
+          formattedSlug
         }
       }
     }
@@ -85,6 +86,7 @@ const PAGES_QUERY = /* GraphQL */ `
         node {
           id
           slug
+          formattedSlug
         }
       }
     }
@@ -101,5 +103,6 @@ interface Edge {
   node: {
     id: string;
     slug: string;
+    formattedSlug: string;
   };
 }

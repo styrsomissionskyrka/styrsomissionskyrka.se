@@ -8,10 +8,10 @@ export class Navigation {
   static PAGE = '/:slug';
 
   static EVENTS = '/kalender';
-  static EVENT = `${Navigation.EVENTS}/:slug`;
+  static EVENT = `${Navigation.EVENTS}/:year/:month/:date/:slug`;
 
   static RETREATS = '/retreater';
-  static RETREAT = `${Navigation.RETREATS}/:slug`;
+  static RETREAT = `${Navigation.RETREATS}/:year/:month/:slug`;
 
   static fromTypename(typename: Typename): string {
     switch (typename) {
@@ -27,7 +27,7 @@ export class Navigation {
 
 export const formatUrl = (
   path: string,
-  params: Record<string, string>,
+  params: Record<string, string | number | null | undefined>,
 ): string => {
   return insertParams(path, params);
 };

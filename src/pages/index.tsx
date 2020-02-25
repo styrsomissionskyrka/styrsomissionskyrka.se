@@ -1,6 +1,5 @@
 import React from 'react';
 import { graphql, Link, PageComponentProps } from 'gatsby';
-import { Navigation, formatUrl } from '../navigation';
 import { IndexQuery } from './__generated__/IndexQuery';
 
 const IndexPage: React.FC<PageComponentProps<IndexQuery>> = ({ data }) => {
@@ -11,7 +10,7 @@ const IndexPage: React.FC<PageComponentProps<IndexQuery>> = ({ data }) => {
       <ul>
         {events.edges.map(({ node }) => (
           <li key={node.id}>
-            <Link to={formatUrl(Navigation.EVENT, { slug: node.slug ?? '' })}>
+            <Link to={node.formattedSlug}>
               {node.title} | {node.startDate}
             </Link>
           </li>
@@ -40,7 +39,7 @@ export const query = graphql`
         node {
           id
           title
-          slug
+          formattedSlug
           startDate
         }
       }
@@ -54,7 +53,7 @@ export const query = graphql`
         node {
           id
           title
-          slug
+          formattedSlug
           startDate
         }
       }
