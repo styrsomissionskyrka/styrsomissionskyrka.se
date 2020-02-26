@@ -26,8 +26,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
-    "@babel/preset-env": "^7.8.4",
-    "@babel/preset-react": "^7.8.3",
     "@babel/preset-typescript": "^7.8.3",
     "@fullhuman/postcss-purgecss": "^2.0.6",
     "@testing-library/jest-dom": "^5.1.1",
@@ -44,6 +42,7 @@
     "apollo": "^2.23.0",
     "autoprefixer": "^9.7.4",
     "babel-eslint": "10.x",
+    "babel-preset-gatsby": "^0.2.29",
     "cz-conventional-changelog": "^3.1.0",
     "dotenv": "^8.2.0",
     "eslint": "6.x",
