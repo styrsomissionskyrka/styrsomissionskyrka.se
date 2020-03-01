@@ -26,6 +26,10 @@ export default RetreatsArchive;
 
 export const query = graphql`
   query RetreatsArchiveQuery($limit: Int!, $skip: Int!) {
+    contentfulPage(slug: { eq: "retreater" }) {
+      title
+    }
+
     allContentfulRetreat(
       limit: $limit
       skip: $skip

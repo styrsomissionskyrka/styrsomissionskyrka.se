@@ -1,6 +1,7 @@
 import { CreatePagesArgs } from 'gatsby';
 import { resolveTemplate } from './utils';
 import { Navigation, formatPaginatedUrl } from '../src/navigation';
+import { range } from '../src/utils';
 import {
   PAGES_QUERY,
   ARCHIVES_QUERY,
@@ -55,6 +56,8 @@ async function createSinglePages({ graphql, actions }: CreatePagesArgs) {
 
   for (let page of data.pages.edges) {
     const { node } = page;
+    if (Navigation.isForbidden(node.slug)) continue;
+
     actions.createPage({
       path: node.formattedSlug,
       component: await resolveTemplate([`page-${node.slug}.tsx`, 'page.tsx']),
@@ -85,14 +88,15 @@ async function createArchivePages({ graphql, actions }: CreatePagesArgs) {
   }) => {
     const totalPages =
       Math.floor(totalCount / ITEMS_PER_PAGE) + (totalCount % ITEMS_PER_PAGE);
+    const pages = range(0, totalPages);
 
-    for (let i = 1; i <= totalPages; i++) {
+    for (let page of pages) {
       actions.createPage({
-        path: formatPaginatedUrl(pathBase, i),
+        path: formatPaginatedUrl(pathBase, page + 1),
         component,
         context: {
           limit: ITEMS_PER_PAGE,
-          skip: ITEMS_PER_PAGE * (i - 1),
+          skip: ITEMS_PER_PAGE * page,
         },
       });
     }

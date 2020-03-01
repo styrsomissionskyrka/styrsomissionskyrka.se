@@ -27,6 +27,10 @@ export default EventArchive;
 
 export const query = graphql`
   query EventsArchiveQuery($limit: Int!, $skip: Int!) {
+    contentfulPage(slug: { eq: "kalender" }) {
+      title
+    }
+
     allContentfulEvent(
       limit: $limit
       skip: $skip

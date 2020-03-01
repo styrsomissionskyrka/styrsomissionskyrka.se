@@ -14,6 +14,8 @@ export class Navigation {
   static RETREATS = '/retreater';
   static RETREAT = `${Navigation.RETREATS}/:year/:month/:slug`;
 
+  static FORBIDDEN_SLUGS = ['kalender', 'retreater'];
+
   static fromTypename(typename: Typename): string {
     switch (typename) {
       case 'ContentfulPage':
@@ -23,6 +25,10 @@ export class Navigation {
       case 'ContentfulRetreat':
         return Navigation.RETREAT;
     }
+  }
+
+  static isForbidden(slug: string) {
+    return Navigation.FORBIDDEN_SLUGS.includes(slug);
   }
 }
 
