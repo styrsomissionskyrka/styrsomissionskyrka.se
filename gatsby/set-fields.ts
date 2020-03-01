@@ -3,7 +3,7 @@ import {
   CreateSchemaCustomizationArgs,
   GatsbyNode,
 } from 'gatsby';
-import { GraphQLFloat, GraphQLBoolean } from 'gatsby/graphql';
+import { GraphQLBoolean } from 'gatsby/graphql';
 import { parseISO, format } from 'date-fns';
 import { Navigation, formatUrl } from '../src/navigation';
 

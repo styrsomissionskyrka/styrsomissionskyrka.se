@@ -32,3 +32,15 @@ export async function exists(
     return false;
   }
 }
+
+/**
+ * This is merly a proxy function that will bypass any tagged template string it
+ * finds and return the string again. In out context this function is used to
+ * "trick" the Apollo cli's type generator. When it finds a function called
+ * `graphql` with tagged template literals it will extract types from it.
+ *
+ * @param templates Template strings array
+ */
+export const graphql = (templates: TemplateStringsArray) => {
+  return templates.join('');
+};

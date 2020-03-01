@@ -1,6 +1,13 @@
 import { CreatePagesArgs } from 'gatsby';
 import { resolveTemplate } from './utils';
 import { Navigation, formatPaginatedUrl } from '../src/navigation';
+import {
+  PAGES_QUERY,
+  ARCHIVES_QUERY,
+  PagesQuery,
+  ArchivesQuery,
+  ArchivesQueryVariables,
+} from './graphql/queries';
 
 /**
  * Part of gatsbys node api this function will fetch data from the GraphAPI and
@@ -104,85 +111,4 @@ async function createArchivePages({ graphql, actions }: CreatePagesArgs) {
     totalCount: retreats.totalCount,
     component: await resolveTemplate(['archive-retreats.tsx']),
   });
-}
-
-/**
- * QUERIES and TYPES
- */
-const PAGES_QUERY = /* GraphQL */ `
-  query PagesQuery {
-    events: allContentfulEvent(limit: 100, filter: { isFuture: { eq: true } }) {
-      edges {
-        node {
-          id
-          slug
-          formattedSlug
-        }
-      }
-    }
-
-    retreats: allContentfulRetreat(
-      limit: 100
-      filter: { isFuture: { eq: true } }
-    ) {
-      edges {
-        node {
-          id
-          slug
-          formattedSlug
-        }
-      }
-    }
-
-    pages: allContentfulPage(limit: 100, filter: { slug: { ne: "/" } }) {
-      edges {
-        node {
-          id
-          slug
-          formattedSlug
-        }
-      }
-    }
-  }
-`;
-
-interface PagesQuery {
-  events: { edges: Edge[] };
-  retreats: { edges: Edge[] };
-  pages: { edges: Edge[] };
-}
-
-interface Edge {
-  node: {
-    id: string;
-    slug: string;
-    formattedSlug: string;
-  };
-}
-
-const ARCHIVES_QUERY = /* GraphQL */ `
-  query ArchivesQuery($limit: Int!) {
-    events: allContentfulEvent(
-      limit: $limit
-      filter: { isFuture: { eq: true } }
-    ) {
-      totalCount
-    }
-
-    retreats: allContentfulRetreat(
-      limit: $limit
-      filter: { isFuture: { eq: true } }
-    ) {
-      totalCount
-    }
-  }
-`;
-
-interface ArchivesQuery {
-  events: { totalCount: number };
-  retreats: { totalCount: number };
-}
-
-interface ArchivesQueryVariables {
-  limit: number;
 }
