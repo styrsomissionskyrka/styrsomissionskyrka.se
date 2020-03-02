@@ -13,7 +13,7 @@
     "test": "jest",
     "clean": "gatsby clean && del '**/__generated__' schema.json",
     "schema:download": "echo '' | yarn gatsby repl",
-    "schema:types": "apollo client:codegen --addTypename --target=typescript --localSchemaFile=./schema.json --includes=./src/**/*.ts,./src/**/*.tsx,./gatsby/**/*.ts",
+    "schema:types": "apollo client:codegen --target=typescript --includes=./src/**/*.ts,./src/**/*.tsx,./gatsby/**/*.ts",
     "schema:watch": "npx nodemon --ignore '__generated__/**' --watch 'src' -e ts,tsx,js,jsx --exec 'yarn schema:types'",
     "schema": "yarn schema:download && yarn schema:types"
   },

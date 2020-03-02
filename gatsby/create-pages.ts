@@ -1,6 +1,10 @@
 import { CreatePagesArgs } from 'gatsby';
 import { resolveTemplate } from './utils';
-import { Navigation, formatPaginatedUrl } from '../src/navigation';
+import {
+  Navigation,
+  formatPaginatedUrl,
+  removeLeadingSlash,
+} from '../src/navigation';
 import { range } from '../src/utils';
 import {
   PAGES_QUERY,
@@ -81,13 +85,14 @@ async function createArchivePages({ graphql, actions }: CreatePagesArgs) {
     pathBase,
     totalCount,
     component,
+    context,
   }: {
     pathBase: string;
     totalCount: number;
     component: string;
+    context?: Record<string, any>;
   }) => {
-    const totalPages =
-      Math.floor(totalCount / ITEMS_PER_PAGE) + (totalCount % ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
     const pages = range(0, totalPages);
 
     for (let page of pages) {
@@ -95,6 +100,7 @@ async function createArchivePages({ graphql, actions }: CreatePagesArgs) {
         path: formatPaginatedUrl(pathBase, page + 1),
         component,
         context: {
+          ...context,
           limit: ITEMS_PER_PAGE,
           skip: ITEMS_PER_PAGE * page,
         },
@@ -108,11 +114,17 @@ async function createArchivePages({ graphql, actions }: CreatePagesArgs) {
     pathBase: Navigation.EVENTS,
     totalCount: events.totalCount,
     component: await resolveTemplate(['archive-events.tsx']),
+    context: {
+      slug: removeLeadingSlash(Navigation.EVENTS),
+    },
   });
 
   createPaginatedArchive({
     pathBase: Navigation.RETREATS,
     totalCount: retreats.totalCount,
     component: await resolveTemplate(['archive-retreats.tsx']),
+    context: {
+      slug: removeLeadingSlash(Navigation.RETREATS),
+    },
   });
 }

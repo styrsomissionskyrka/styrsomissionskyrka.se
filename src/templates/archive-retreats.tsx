@@ -17,7 +17,7 @@ const RetreatsArchive: React.FC<PageComponentProps<RetreatsArchiveQuery>> = ({
           <Link to={node.formattedSlug}>{node.title}</Link>
         </li>
       ))}
-      <Pagination {...pageInfo} pathBase={Navigation.EVENTS} />
+      <Pagination pageInfo={pageInfo} pathBase={Navigation.EVENTS} />
     </div>
   );
 };
@@ -25,8 +25,8 @@ const RetreatsArchive: React.FC<PageComponentProps<RetreatsArchiveQuery>> = ({
 export default RetreatsArchive;
 
 export const query = graphql`
-  query RetreatsArchiveQuery($limit: Int!, $skip: Int!) {
-    contentfulPage(slug: { eq: "retreater" }) {
+  query RetreatsArchiveQuery($limit: Int!, $skip: Int!, $slug: String!) {
+    contentfulPage(slug: { eq: $slug }) {
       title
     }
 
@@ -44,9 +44,7 @@ export const query = graphql`
         }
       }
       pageInfo {
-        currentPage
-        hasNextPage
-        hasPreviousPage
+        ...PaginationInfo
       }
     }
   }

@@ -11,7 +11,9 @@ export const Header: React.FC = () => {
   return (
     <header className="flex items-center px-2 pt-2">
       <div className="mr-8">
-        <Logotype className="w-20 h-auto text-black" />
+        <Link to="/">
+          <Logotype className="w-20 h-auto text-black" />
+        </Link>
       </div>
 
       <nav>
@@ -19,8 +21,10 @@ export const Header: React.FC = () => {
           {menuItems.map(item => (
             <li key={item.id}>
               <Link
-                className="px-2 hover:text-blue-500"
                 to={item.formattedSlug}
+                className="px-2 hover:text-blue-500"
+                activeClassName="text-red-500"
+                partiallyActive
               >
                 {item.title}
               </Link>
@@ -35,8 +39,6 @@ export const Header: React.FC = () => {
 const MENU_QUERY = graphql`
   query MenuQuery {
     menu: contentfulMenu(position: { eq: "top" }) {
-      id
-      name
       items {
         __typename
         ... on ContentfulPage {

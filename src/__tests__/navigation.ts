@@ -1,11 +1,4 @@
-import {
-  Navigation,
-  formatUrl,
-  formatPaginatedUrl,
-  removeTrailingSlash,
-  removeLeadingSlash,
-  removeSlashes,
-} from '../navigation';
+import { Navigation, formatUrl, formatPaginatedUrl } from '../navigation';
 
 describe('Navigation.fromTypename', () => {
   it('returns correct path based on typename', () => {
@@ -35,13 +28,5 @@ describe('formatPaginatedUrl', () => {
     expect(formatPaginatedUrl('/events', 2)).toBe(
       '/events' + formatUrl(Navigation.PAGINATED, { page: 2 }),
     );
-  });
-});
-
-describe('removeSlashes', () => {
-  it('removes slashes from paths', () => {
-    expect(removeLeadingSlash('/path/to/anywhere/')).toBe('path/to/anywhere/');
-    expect(removeTrailingSlash('/path/to/anywhere/')).toBe('/path/to/anywhere');
-    expect(removeSlashes('/path/to/anywhere/')).toBe('path/to/anywhere');
   });
 });

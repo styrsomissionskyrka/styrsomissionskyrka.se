@@ -1,4 +1,5 @@
 import { insertParams } from '@reach/router/lib/utils';
+import { removeLeadingSlash, removeTrailingSlash } from './utils';
 
 type Typename = 'ContentfulPage' | 'ContentfulEvent' | 'ContentfulRetreat';
 
@@ -14,8 +15,6 @@ export class Navigation {
   static RETREATS = '/retreater';
   static RETREAT = `${Navigation.RETREATS}/:year/:month/:slug`;
 
-  static FORBIDDEN_SLUGS = ['kalender', 'retreater'];
-
   static fromTypename(typename: Typename): string {
     switch (typename) {
       case 'ContentfulPage':
@@ -28,7 +27,16 @@ export class Navigation {
   }
 
   static isForbidden(slug: string) {
-    return Navigation.FORBIDDEN_SLUGS.includes(slug);
+    for (let predefinedSlug of Object.values(Navigation)) {
+      if (
+        typeof predefinedSlug === 'string' &&
+        removeLeadingSlash(predefinedSlug) === slug
+      ) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }
 
@@ -51,10 +59,4 @@ export const formatPaginatedUrl = (
   }
 
   return base;
-};
-
-export const removeLeadingSlash = (path: string) => path.replace(/^\//, '');
-export const removeTrailingSlash = (path: string) => path.replace(/\/$/, '');
-export const removeSlashes = (path: string) => {
-  return removeLeadingSlash(removeTrailingSlash(path));
 };

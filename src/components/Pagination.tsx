@@ -1,20 +1,15 @@
 import React from 'react';
-import { Link } from 'gatsby';
+import { Link, graphql } from 'gatsby';
 import { formatPaginatedUrl } from '../navigation';
+import { PaginationInfo } from './__generated__/PaginationInfo';
 
 interface Props {
-  hasNextPage: boolean;
-  hasPreviousPage: boolean;
-  currentPage: number;
+  pageInfo: PaginationInfo;
   pathBase: string;
 }
 
-export const Pagination: React.FC<Props> = ({
-  hasNextPage,
-  hasPreviousPage,
-  currentPage,
-  pathBase,
-}) => {
+export const Pagination: React.FC<Props> = ({ pageInfo, pathBase }) => {
+  const { hasNextPage, hasPreviousPage, currentPage } = pageInfo;
   const nextPagePath = formatPaginatedUrl(pathBase, currentPage + 1);
   const prevPagePath = formatPaginatedUrl(pathBase, currentPage - 1);
 
@@ -25,3 +20,11 @@ export const Pagination: React.FC<Props> = ({
     </div>
   );
 };
+
+export const query = graphql`
+  fragment PaginationInfo on PageInfo {
+    currentPage
+    hasNextPage
+    hasPreviousPage
+  }
+`;

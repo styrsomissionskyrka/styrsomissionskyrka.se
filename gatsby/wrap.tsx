@@ -26,8 +26,8 @@ export const createPageWrapper = (): React.FC<WrapPageElementBrowserArgs> => ({
   element,
 }) => {
   return (
-    <React.Fragment>
+    <React.StrictMode>
       <Layout>{element}</Layout>
-    </React.Fragment>
+    </React.StrictMode>
   );
 };

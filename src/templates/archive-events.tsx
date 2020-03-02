@@ -5,7 +5,7 @@ import { Navigation } from '../navigation';
 import { Pagination } from '../components/Pagination';
 import { EventsArchiveQuery } from './__generated__/EventsArchiveQuery';
 
-const EventArchive: React.FC<PageComponentProps<EventsArchiveQuery>> = ({
+const EventsArchive: React.FC<PageComponentProps<EventsArchiveQuery>> = ({
   data,
 }) => {
   const { pageInfo, edges: events } = data.allContentfulEvent;
@@ -18,16 +18,16 @@ const EventArchive: React.FC<PageComponentProps<EventsArchiveQuery>> = ({
           <Link to={node.formattedSlug}>{node.title}</Link>
         </li>
       ))}
-      <Pagination {...pageInfo} pathBase={Navigation.EVENTS} />
+      <Pagination pageInfo={pageInfo} pathBase={Navigation.EVENTS} />
     </div>
   );
 };
 
-export default EventArchive;
+export default EventsArchive;
 
 export const query = graphql`
-  query EventsArchiveQuery($limit: Int!, $skip: Int!) {
-    contentfulPage(slug: { eq: "kalender" }) {
+  query EventsArchiveQuery($limit: Int!, $skip: Int!, $slug: String!) {
+    contentfulPage(slug: { eq: $slug }) {
       title
     }
 
@@ -45,9 +45,7 @@ export const query = graphql`
         }
       }
       pageInfo {
-        currentPage
-        hasNextPage
-        hasPreviousPage
+        ...PaginationInfo
       }
     }
   }
