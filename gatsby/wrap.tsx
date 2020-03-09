@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  WrapRootElementBrowserArgs,
-  ExtendedWrapPageElementBrowserArgs,
-} from 'gatsby';
+import { GatsbyBrowser, PageProps } from 'gatsby';
 import { Layout } from '../src/components/Layout';
 import { SiteMeta } from '../src/components/SiteMeta';
 
@@ -13,7 +10,7 @@ import { SiteMeta } from '../src/components/SiteMeta';
  * The first wrapping function is there for future use to make it possible to
  * alter the root wrapper based on if it's ssr or browser.
  */
-export const createRootWrapper = (): React.FC<WrapRootElementBrowserArgs> => ({
+export const wrapRootElement: GatsbyBrowser['wrapRootElement'] = ({
   element,
 }) => {
   return <React.Fragment>{element}</React.Fragment>;
@@ -26,13 +23,13 @@ export const createRootWrapper = (): React.FC<WrapRootElementBrowserArgs> => ({
  * The first wrapping function is there for future use to make it possible to
  * alter the root wrapper based on if it's ssr or browser.
  */
-export const createPageWrapper = (): React.FC<ExtendedWrapPageElementBrowserArgs> => ({
+export const wrapPageElement: GatsbyBrowser['wrapPageElement'] = ({
   element,
   props,
 }) => {
   return (
     <React.StrictMode>
-      <SiteMeta {...props} />
+      <SiteMeta {...(props as PageProps)} />
       <Layout>{element}</Layout>
     </React.StrictMode>
   );
