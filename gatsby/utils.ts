@@ -13,7 +13,8 @@ export async function resolveTemplate(templates: string[]): Promise<string> {
   }
 
   throw new Error(
-    `Could not locate any of the following templates: ${templates.join(' ,')}`,
+    'Could not locate any of the following templates:\n' +
+      templates.map(t => `  - ${t}`).join('\n'),
   );
 }
 
@@ -35,7 +36,7 @@ export async function exists(
 
 /**
  * This is merly a proxy function that will bypass any tagged template string it
- * finds and return the string again. In out context this function is used to
+ * finds and return the string again. In our context this function is used to
  * "trick" the Apollo cli's type generator. When it finds a function called
  * `graphql` with tagged template literals it will extract types from it.
  *

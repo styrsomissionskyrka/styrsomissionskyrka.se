@@ -7,3 +7,4 @@ schema.json
 __generated__
 coverage
 .vscode
+.eslintcache

@@ -1,11 +1,7 @@
 import { CreatePagesArgs } from 'gatsby';
 import { resolveTemplate } from './utils';
-import {
-  Navigation,
-  formatPaginatedUrl,
-  removeLeadingSlash,
-} from '../src/navigation';
-import { range } from '../src/utils';
+import { Navigation, formatPaginatedUrl } from '../src/navigation';
+import { range, removeLeadingSlash } from '../src/utils';
 import {
   PAGES_QUERY,
   ARCHIVES_QUERY,
