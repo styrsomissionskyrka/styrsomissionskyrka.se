@@ -1,6 +1,10 @@
 import React from 'react';
-import { WrapPageElementBrowserArgs, WrapRootElementBrowserArgs } from 'gatsby';
+import {
+  WrapRootElementBrowserArgs,
+  ExtendedWrapPageElementBrowserArgs,
+} from 'gatsby';
 import { Layout } from '../src/components/Layout';
+import { SiteMeta } from '../src/components/SiteMeta';
 
 /**
  * Create a root wrapper to wrap around the full application. Useful for
@@ -22,11 +26,13 @@ export const createRootWrapper = (): React.FC<WrapRootElementBrowserArgs> => ({
  * The first wrapping function is there for future use to make it possible to
  * alter the root wrapper based on if it's ssr or browser.
  */
-export const createPageWrapper = (): React.FC<WrapPageElementBrowserArgs> => ({
+export const createPageWrapper = (): React.FC<ExtendedWrapPageElementBrowserArgs> => ({
   element,
+  props,
 }) => {
   return (
     <React.StrictMode>
+      <SiteMeta {...props} />
       <Layout>{element}</Layout>
     </React.StrictMode>
   );

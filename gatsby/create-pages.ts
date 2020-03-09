@@ -25,6 +25,7 @@ export const createPages = async (args: CreatePagesArgs) => {
 async function createSinglePages({ graphql, actions }: CreatePagesArgs) {
   const { data, errors } = await graphql<PagesQuery>(PAGES_QUERY);
   if (errors) throw errors;
+  if (!data) throw new Error('No data found');
 
   for (let event of data.events.edges) {
     const { node } = event;
@@ -56,7 +57,7 @@ async function createSinglePages({ graphql, actions }: CreatePagesArgs) {
 
   for (let page of data.pages.edges) {
     const { node } = page;
-    if (Navigation.isForbidden(node.slug)) continue;
+    if (!node.slug || Navigation.isForbidden(node.slug)) continue;
 
     actions.createPage({
       path: node.formattedSlug,
@@ -76,6 +77,7 @@ async function createArchivePages({ graphql, actions }: CreatePagesArgs) {
   );
 
   if (errors) throw errors;
+  if (!data) throw new Error('No data found');
 
   const createPaginatedArchive = ({
     pathBase,
