@@ -1,8 +1,8 @@
 import React from 'react';
-import { graphql, Link, PageComponentProps } from 'gatsby';
+import { graphql, Link, PageProps } from 'gatsby';
 import { IndexQuery } from './__generated__/IndexQuery';
 
-const IndexPage: React.FC<PageComponentProps<IndexQuery>> = ({ data }) => {
+const IndexPage: React.FC<PageProps<IndexQuery>> = ({ data }) => {
   const { events } = data;
 
   return (

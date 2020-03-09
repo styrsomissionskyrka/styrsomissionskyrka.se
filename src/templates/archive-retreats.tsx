@@ -1,10 +1,10 @@
 import React from 'react';
-import { Link, graphql, PageComponentProps } from 'gatsby';
+import { Link, graphql, PageProps } from 'gatsby';
 import { Pagination } from '../components/Pagination';
 import { Navigation } from '../navigation';
 import { RetreatsArchiveQuery } from './__generated__/RetreatsArchiveQuery';
 
-const RetreatsArchive: React.FC<PageComponentProps<RetreatsArchiveQuery>> = ({
+const RetreatsArchive: React.FC<PageProps<RetreatsArchiveQuery>> = ({
   data,
 }) => {
   const { pageInfo, edges: retreats } = data.allContentfulRetreat;

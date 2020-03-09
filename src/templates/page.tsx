@@ -1,8 +1,8 @@
 import React from 'react';
-import { graphql, PageComponentProps } from 'gatsby';
+import { graphql, PageProps } from 'gatsby';
 import { PageQuery } from './__generated__/PageQuery';
 
-const Event: React.FC<PageComponentProps<PageQuery>> = ({ data }) => {
+const Event: React.FC<PageProps<PageQuery>> = ({ data }) => {
   const { contentfulPage } = data;
   return <h1>{contentfulPage?.title}</h1>;
 };

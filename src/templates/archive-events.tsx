@@ -1,13 +1,11 @@
 import React from 'react';
-import { Link, graphql, PageComponentProps } from 'gatsby';
+import { Link, graphql, PageProps } from 'gatsby';
 
 import { Navigation } from '../navigation';
 import { Pagination } from '../components/Pagination';
 import { EventsArchiveQuery } from './__generated__/EventsArchiveQuery';
 
-const EventsArchive: React.FC<PageComponentProps<EventsArchiveQuery>> = ({
-  data,
-}) => {
+const EventsArchive: React.FC<PageProps<EventsArchiveQuery>> = ({ data }) => {
   const { pageInfo, edges: events } = data.allContentfulEvent;
 
   return (

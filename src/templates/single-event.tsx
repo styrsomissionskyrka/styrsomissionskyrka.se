@@ -1,8 +1,8 @@
 import React from 'react';
-import { graphql, PageComponentProps } from 'gatsby';
+import { graphql, PageProps } from 'gatsby';
 import { EventQuery } from './__generated__/EventQuery';
 
-const Event: React.FC<PageComponentProps<EventQuery>> = ({ data }) => {
+const Event: React.FC<PageProps<EventQuery>> = ({ data }) => {
   const { contentfulEvent } = data;
   return <h1>{contentfulEvent?.title}</h1>;
 };
