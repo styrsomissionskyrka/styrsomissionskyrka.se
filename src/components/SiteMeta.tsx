@@ -11,15 +11,20 @@ export const SiteMeta: React.FC<PageProps> = ({ location }) => {
       defer={false}
       titleTemplate={`%s | ${site?.siteMetadata?.title}`}
       defaultTitle={site?.siteMetadata?.title ?? ''}
-    >
-      {site?.siteMetadata?.description && (
-        <meta name="description" content={site.siteMetadata.description} />
-      )}
-      <link
-        rel="canonical"
-        href={(site?.siteMetadata?.siteUrl ?? '') + location.pathname}
-      />
-    </Helmet>
+      htmlAttributes={{ lang: site?.siteMetadata?.language ?? '' }}
+      meta={[
+        {
+          name: 'description',
+          content: site?.siteMetadata?.description ?? '',
+        },
+      ]}
+      link={[
+        {
+          rel: 'canonical',
+          href: (site?.siteMetadata?.siteUrl ?? '') + location.pathname,
+        },
+      ]}
+    />
   );
 };
 
@@ -30,6 +35,7 @@ const METADATA_QUERY = graphql`
         title
         description
         siteUrl
+        language
       }
     }
   }

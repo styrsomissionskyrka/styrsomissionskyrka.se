@@ -15,6 +15,7 @@ module.exports = {
     title: 'Styrsö Missionskyrka',
     description: '-',
     siteUrl: 'https://www.styrsomissionskyrka.se',
+    language: 'sv',
   },
   plugins: [
     {

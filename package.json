@@ -24,7 +24,7 @@
     "date-fns": "^2.10.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
-    "react-helmet": "6.0.0-beta"
+    "react-helmet": "6.0.0-beta.2"
   },
   "devDependencies": {
     "@babel/core": "^7.8.7",
