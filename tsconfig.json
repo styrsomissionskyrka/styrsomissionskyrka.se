@@ -16,7 +16,8 @@
     "jsx": "react",
     "baseUrl": "./",
     "paths": {
-      "gatsby/graphql": ["./src/types/gatsby-graphql.d.ts"]
+      "gatsby/graphql": ["./src/types/gatsby-graphql.d.ts"],
+      "@reach/router/lib/utils": ["./src/types/reach-router.d.ts"]
     }
   },
   "include": ["src", "gatsby"]

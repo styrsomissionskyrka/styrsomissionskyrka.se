@@ -1,5 +1,5 @@
 import React from 'react';
-import { GatsbyBrowser, PageProps } from 'gatsby';
+import { GatsbyBrowser } from 'gatsby';
 import { Layout } from '../src/components/Layout';
 import { SiteMeta } from '../src/components/SiteMeta';
 
@@ -29,7 +29,7 @@ export const wrapPageElement: GatsbyBrowser['wrapPageElement'] = ({
 }) => {
   return (
     <React.StrictMode>
-      <SiteMeta {...(props as PageProps)} />
+      <SiteMeta {...props} />
       <Layout>{element}</Layout>
     </React.StrictMode>
   );
