@@ -1,4 +1,4 @@
-import { CreatePagesArgs } from 'gatsby';
+import { CreatePagesArgs, GatsbyNode } from 'gatsby';
 import { resolveTemplate } from './utils';
 import { Navigation, formatPaginatedUrl } from '../src/navigation';
 import { range, removeLeadingSlash } from '../src/utils';
@@ -14,7 +14,7 @@ import {
  * Part of gatsbys node api this function will fetch data from the GraphAPI and
  * generate pages based on the returned content.
  */
-export const createPages = async (args: CreatePagesArgs) => {
+export const createPages: GatsbyNode['createPages'] = async args => {
   await createSinglePages(args);
   await createArchivePages(args);
 };
